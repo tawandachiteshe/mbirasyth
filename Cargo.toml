@@ -1,0 +1,33 @@
+[package]
+name = "mbirasyth"
+version = "0.1.0"
+edition = "2024"
+description = "Procedural mbira synthesizer and composer for games and the home"
+
+[features]
+default = ["gui", "home"]
+gui = ["dep:eframe", "dep:cpal"]
+# Adaptive home music: time of day, weather (Open-Meteo), smart-home HTTP API, headless player.
+home = ["dep:cpal", "dep:ureq", "dep:serde_json", "dep:chrono"]
+ureq = ["dep:ureq"]
+serde_json = ["dep:serde_json"]
+
+[dependencies]
+hound = "3.5"
+rtrb = "0.4"
+eframe = { version = "0.36", optional = true }
+cpal = { version = "0.18", optional = true }
+ureq = { version = "2", optional = true }
+serde_json = { version = "1", optional = true }
+chrono = { version = "0.4", default-features = false, features = ["clock"], optional = true }
+
+[profile.dev]
+opt-level = 1
+
+[profile.dev.package."*"]
+opt-level = 2
+
+[[bin]]
+name = "mbirasyth"
+path = "src/main.rs"
+required-features = ["gui"]
